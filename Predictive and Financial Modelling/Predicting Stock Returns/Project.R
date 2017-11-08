@@ -129,9 +129,52 @@ for(i in t_tickers){
   reduce_file_tickers_data <- rbind(reduce_file_tickers_data,reduce_file_data[reduce_file_data$ticker==i,])
 }
 
+"
+tickers_test <- t_tickers[1]
+temp_tickers <- vector()
+temp_dates <- NULL
 coefficients_tickers <- vector()
+for( i in tickers_test){
+  temp_tickers <- subset(reduce_file_tickers_data,ticker==i)
+  
+  if(nrow(temp_tickers) == 20){
+    for(j in unique_dates_train){
+      
+      #temp_dates_value <- rbind(temp_dates_value,subset(temp_tickers,calendardate==j))
+      
+      temp_dates_value <- subset(temp_tickers,calendardate==j)
+      calendardate_values <- temp_dates_value[,c('calendardate')]
+      tickers_temp <- temp_dates_value[,c('ticker')]
+      
+      temp_dates_value[,c('calendardate','ticker')] <- list(NULL)
+      model <- lm(ln_returns ~ . , temp_dates_value)
+      coefficients_tickers <- rbind(coefficients_tickers,cbind(ticker_values,calendardate_values,model$coefficients))
+      temp_dates_value <- NULL
+      calendardate_values <- NULL
+      ticker_values <- NULL
+      model <- NULL
+      
+    }
+  }
+}
+"
+
+coefficients_tickers_train <- vector()
 temp <- NULL
 for(j in unique_dates_train){
+  temp <- subset(reduce_file_tickers_data,calendardate==j)
+  temp[c('calendardate','ticker')] <- list(NULL)
+  model <- lm(ln_returns ~ . , temp)
+  #print(model$coefficients)
+  coefficients_tickers_train <- rbind(coefficients_tickers_train,model$coefficients)
+  temp <- NULL
+  model <- NULL
+}
+
+
+coefficients_tickers <- vector()
+temp <- NULL
+for(j in unique_dates){
   temp <- subset(reduce_file_tickers_data,calendardate==j)
   temp[c('calendardate','ticker')] <- list(NULL)
   model <- lm(ln_returns ~ . , temp)
@@ -141,6 +184,12 @@ for(j in unique_dates_train){
   model <- NULL
 }
 
-coefficients_tickers <- cbind(unique_dates_train,coefficients_tickers)
-View(coefficients_tickers)
+#coefficients_tickers <- cbind(unique_dates_train,coefficients_tickers)
+#View(coefficients_tickers)
+df_coef_all <- data.frame(cbind(unique_dates,coefficients_tickers))
+df_coef_train <- data.frame(cbind(unique_dates_train,coefficients_tickers_train))
+
+#writing the files to csv
+write.csv(file="E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/coefficients_all.csv", x=df_coef_all)
+write.csv(file="E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/coefficients_train.csv", x=df_coef_train)
 
