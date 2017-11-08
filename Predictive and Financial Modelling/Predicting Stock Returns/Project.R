@@ -1,4 +1,4 @@
-factor_data <- read.csv("E:/Google Drive/Fall 17 Sem 2/640 Predictive Analytics and Financial Modelling/HW-3/final_data.csv")
+factor_data <- read.csv("E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/final_data.csv")
 View(factor_data)
 
 ln_returns <- vector();
@@ -122,7 +122,7 @@ for(j in unique_dates_train){
 coefficients_dates <- cbind(unique_dates_train,coefficients_dates)
 View(coefficients_dates)
 
-tickers <- read.csv("E:/Google Drive/Fall 17 Sem 2/640 Predictive Analytics and Financial Modelling/Project-1/Pranay/tickers.csv",header = TRUE)
+tickers <- read.csv("E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/tickers.csv",header = TRUE)
 t_tickers <- intersect(tickers$Symbol,reduce_file$ticker)
 reduce_file_tickers_data <- vector()
 for(i in t_tickers){
