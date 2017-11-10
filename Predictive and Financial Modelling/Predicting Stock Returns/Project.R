@@ -192,4 +192,4 @@ df_coef_train <- data.frame(cbind(unique_dates_train,coefficients_tickers_train)
 #writing the files to csv
 write.csv(file="E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/coefficients_all.csv", x=df_coef_all)
 write.csv(file="E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/coefficients_train.csv", x=df_coef_train)
-
+write.csv(file="E:/Google Drive/Fall 17 Sem 2/Academic Projects/Predictive and Financial Modelling/Predicting Stock Returns/reduce_file.csv", x=reduce_file_tickers_data)
